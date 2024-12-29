@@ -13,9 +13,9 @@ const (
 )
 
 type Config struct {
-	config_path       string
-	Db_url            string `json:"db_url"`
-	Current_user_name string `json:"current_user_name"`
+	config_path string
+	DBURL       string `json:"db_url"`
+	CurrentUser string `json:"current_user"`
 }
 
 func getConfigPath() (string, error) {
@@ -60,7 +60,7 @@ func Read() (Config, error) {
 }
 
 func (c *Config) SetUser(username string) error {
-	c.Current_user_name = username
+	c.CurrentUser = username
 	if err := writeConfig(c); err != nil {
 		return err
 	}
