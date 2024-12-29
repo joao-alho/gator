@@ -8,6 +8,8 @@ import (
 	"net/http"
 
 	"html"
+
+	"github.com/joao-alho/gator/internal/database"
 )
 
 type RSSFeed struct {
@@ -68,4 +70,13 @@ func printRssFeed(f *RSSFeed) {
 		fmt.Printf("  %d. Description: %s\n", n+1, item.Description)
 		fmt.Printf("  %d. PubDate: %s\n", n+1, item.PubDate)
 	}
+}
+
+func printFeedRecord(f *database.Feed) {
+	fmt.Printf("ID: %v\n", f.ID)
+	fmt.Printf("Name: %s\n", f.Name)
+	fmt.Printf("Url: %s\n", f.Url)
+	fmt.Printf("Updated at: %v\n", f.UpdatedAt)
+	fmt.Printf("Created at: %v\n", f.CreatedAt)
+	fmt.Printf("UserId: %v\n", f.UserID)
 }
