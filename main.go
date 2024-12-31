@@ -1,7 +1,9 @@
 package main
 
 import (
+	"context"
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 
@@ -36,7 +38,12 @@ func main() {
 	cmds.Register("reset", handlerReset)
 	cmds.Register("users", handlerGetUsers)
 	cmds.Register("agg", handlerAgg)
-	cmds.Register("addfeed", handlerAddFeed)
+	cmds.Register("addfeed", middlewareLoggedIn(handlerAddFeed))
+	cmds.Register("feeds", handlerFeeds)
+	cmds.Register("follow", middlewareLoggedIn(handlerFollow))
+	cmds.Register("unfollow", middlewareLoggedIn(handlerUnfollow))
+	cmds.Register("following", middlewareLoggedIn(handlerFollowing))
+	cmds.Register("browse", handlerBrowse)
 
 	args := os.Args
 	if len(args) <= 1 {
@@ -48,5 +55,16 @@ func main() {
 	}
 	if err := cmds.Run(&current_state, cmd); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func middlewareLoggedIn(handler func(s *state, cmd command, user database.User) error) func(*state, command) error {
+	return func(s *state, c command) error {
+		user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUser)
+		if err != nil {
+			return fmt.Errorf("failed to retrieve user info: %w", err)
+		}
+
+		return handler(s, c, user)
 	}
 }
