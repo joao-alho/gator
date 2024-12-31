@@ -55,3 +55,15 @@ This will look like:
   * URL: <URL>
   * Published at: <published timestamp>
 ```
+
+
+# Extending the project
+1. Add sorting and filtering options to the browse command
+2. Add pagination to the browse command
+3. Add concurrency to the agg command so that it can fetch more frequently
+4. Add a search command that allows for fuzzy searching of posts
+5. Add bookmarking or liking posts
+6. Add a TUI that allows you to select a post in the terminal and view it in a more readable format (either in the terminal or open in a browser)
+7. Add an HTTP API (and authentication/authorization) that allows other users to interact with the service remotely
+8. Write a service manager that keeps the agg command running in the background and restarts it if it crashes
+
